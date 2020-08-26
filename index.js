@@ -68,7 +68,7 @@ inquirer.prompt([
   
         profileImg += `<img src="${avatar_url}" height="150px" />`;
   
-      // Fills out template once all processingis done
+      // Fills out template once all processing is done
       }).then(function() {
   
     readmeData = 
@@ -79,13 +79,13 @@ inquirer.prompt([
   ${profileImg}
   ${badge}
   ## Index
-  1. [Description](#description)
-  2. [Installation](#installation)
-  3. [Usage](#usage)
-  4. [License](#license)
-  5. [Contribuitng](#contributing)
-  6. [Tests](#tests)
-  7. [FAQ](#questions)
+  * [Description](#description)
+  * [Installation](#installation)
+  * [Usage](#usage)
+  * [License](#license)
+  * [Contribuitng](#contributing)
+  * [Tests](#tests)
+  * [FAQ](#questions)
   <a name="description"></a>
   ### Description
   ${description}
