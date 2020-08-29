@@ -18,6 +18,7 @@
   "homepage": "https://github.com/roxonus/ReadMeGenerator#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "markdown": "^0.5.0"
   }
 }

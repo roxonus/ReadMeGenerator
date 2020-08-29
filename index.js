@@ -1,118 +1,70 @@
+
+
 const fs = require("fs");
-const axios = require("axios");
-const inquirer = require("inquirer")
+const inquirer = require("inquirer");
+let generateMarkdown = require("./utils/generateMarkdown.js");
 
-inquirer.prompt([
-    {
-      type: "input",
-      message: "What is your gitHub username?",
-      name: "username",
-    },
-    {
-      type: "input",
-      message: "What is the title of your project?",
-      name: "title",
-    },
-    {
-      type: "input",
-      message: "What is a good description for your project?",
-      name: "description",
-    }, 
-    {
-      type: "text",
-      message: "How will your project be installed? (Please note, markdown is supported)",
-      name: "installation",
-    },
-    {
-      type: "text",
-      message: "What is the recommended usage of your project?",
-      name: "usage",
-    },
-    {
-      type: "list",
-      choices: ["MIT", "GNU-GPLv3", "GNU AGPLv3", "GNU LGPLv3", "Unilicense", "Boost Software License 1.0", "Apache Lincense 2.0", "Mozilla Public License 2.0"],
-      name: "license",
-    }, {
-      type: "text",
-      message: "How can other users best contribute to your project?",
-      name: "contributing",
-    },
-    {
-        type: "text",
-        message: "What tests would you like to include?",
-        name: "tests",
-      },
-      {
-        type: "text",
-        message: "What needs to be in your FAQ?" ,
-        name: "questions",
+const questions = [
+  {
+    type: "input",
+    name: "username",
+    message: "What is your Guthub username?",
+  },
+  {
+    type: "input",
+    name: "title",
+    message: "What is the title of you project?",
+  },
+  {
+    type: "input",
+    name: "description",
+    message: "Please fill in a description of your project.",
+  },
+  {
+    type: "input",
+    name: "installation",
+    message: "How does a user install your project?",
+  },
+  {
+    type: "input",
+    name: "usage",
+    message: "How would a user use your project?",
+  },
+  {
+    type: "list",
+    choices: ["MIT", "GNU-GPLv3", "GNU AGPLv3", "GNU LGPLv3", "Unilicense", "Boost Software License 1.0", "Apache Lincense 2.0", "Mozilla Public License 2.0"],
+    name: "licensing",
+  },
+  {
+    type: "input",
+    name: "contributions",
+    message: "Please give guidelines for contributors.",
+  },
+  {
+    type: "input",
+    name: "testing",
+    message: "Describe any testing used on your project.",
+  },
+  {
+    type: "input",
+    name: "githubpic",
+    message: "Please provide the url for your profile picture.",
+  },
+  {
+    type: "input",
+    name: "email",
+    message: "Please enter your github email address.",
+  },
+];
+function promptUser() {
+  return inquirer.prompt(questions).then(function (answers) {
+    fs.writeFile("User-readme.md", generateMarkdown(answers), function (err) {
+      if (err) {
+        console.log(err);
       }
+      console.log("You've created a readme!");
+    });
+  });
+}
 
-
-]).then(function(res) {
-    // Destructures data to go into README
-    const { title, username, license, description, installation, usage, contributing, tests, questions } = res;
-    var badge = "";
-    var profileImg = "";
-  
-    // Gets information from Github to add to README
-    axios
-      .get(`https://api.github.com/users/${username}`)
-      .then(function(res) {
-      const { avatar_url, email } = res.data;
-        if (email !== null) {
-          badge += `[![Generic badge](https://img.shields.io/badge/Contact_at-${email}-<COLOR>.svg)](https://shields.io/)`
-        } else {
-          badge += `[![Generic badge](https://img.shields.io/badge/Contact_at-<user_has_no_public_email>-<COLOR>.svg)](https://shields.io/)`
-        }
-  
-        profileImg += `<img src="${avatar_url}" height="150px" />`;
-  
-      // Fills out template once all processing is done
-      }).then(function() {
-  
-    readmeData = 
-  `
-  # ${title}
-    
-  ## Created by: ${username}
-  ${profileImg}
-  ${badge}
-  ## Index
-  * [Description](#description)
-  * [Installation](#installation)
-  * [Usage](#usage)
-  * [License](#license)
-  * [Contribuitng](#contributing)
-  * [Tests](#tests)
-  * [FAQ](#questions)
-  <a name="description"></a>
-  ### Description
-  ${description}
-  <a name="installation"></a>
-  ### Installation
-  ${installation}
-  <a name="usage"></a>
-  ### Usage
-  ${usage}
-  <a name="license"></a>
-  ### License
-  This repo is protected under ${license} licensing.
-  <a name="contributing"></a>
-  ### Contributing
-  ${contributing}
-  <a name="tests"></a>
-  ### Tests
-  ${tests}
-  <a name="questions"></a>
-  ### FAQs
-  ${questions}
-  `
-    // Sends template to README.md
-    }).then(function() {
-      fs.writeFile("README.md", readmeData, function(err) {
-        if (err) throw err;
-        console.log("Success")
-      })
-    })
-  })
+promptUser();
