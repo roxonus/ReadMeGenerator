@@ -1,2 +1,2 @@
 # ReadMeGenerator
-![(readmegen.gif)]
+![](readmegen.gif)
