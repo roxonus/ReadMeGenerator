@@ -56,9 +56,14 @@ const questions = [
     message: "Please enter your github email address.",
   },
 ];
+
+const writeToFile = (fileName, data) => {
+  fs.writeFile(fileName + '.md', data, error => error ? console.error(error) : console.log(`${fileName + '.md'} generated!`))
+}
+
 function promptUser() {
   return inquirer.prompt(questions).then(function (answers) {
-    fs.writeFile("User-readme.md", generateMarkdown(answers), function (err) {
+    fs.writeFile("README.md", generateMarkdown(answers), function (err) {
       if (err) {
         console.log(err);
       }
