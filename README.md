@@ -1,8 +1,10 @@
 
 # ReadMeGenerator
 
+Link to the Github repository
 https://github.com/roxonus/ReadMeGenerator
 
+Link to the screencastify video
 https://drive.google.com/file/d/1VVjJwqHnw4r__MR2RfSRveSkFEu9Vq8A/view?usp=sharing
 
 ![](readmegen.gif)
